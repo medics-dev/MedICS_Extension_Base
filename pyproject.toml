@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "medics-extension-sdk"
+dynamic = ["version"]
+description = "SDK for creating extensions for the MedICS (Medical Image Computing and Segmentation) platform"
+authors = [
+    {name = "MedICS Team", email = "medics@example.com"},
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Healthcare Industry",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+keywords = ["medical imaging", "segmentation", "extensions", "plugins", "MedICS"]
+
+[project.urls]
+Homepage = "https://github.com/medics/medics-extension-sdk"
+Repository = "https://github.com/medics/medics-extension-sdk"
+"Bug Reports" = "https://github.com/medics/medics-extension-sdk/issues"
+Documentation = "https://medics-extension-sdk.readthedocs.io/"
+
+[project.optional-dependencies]
+qt = ["PySide6>=6.0.0"]
+qt6 = ["PySide6>=6.0.0"]
+qt5 = ["PyQt5>=5.15.0"]
+pyqt6 = ["PyQt6>=6.0.0"]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy",
+    "sphinx",
+    "sphinx-rtd-theme",
+]
+examples = [
+    "numpy>=1.20.0",
+    "opencv-python>=4.5.0",
+    "matplotlib>=3.3.0",
+]
+
+[project.scripts]
+medics-create-extension = "medics_extension_sdk.cli:create_extension_command"
+
+[tool.setuptools]
+packages = ["medics_extension_sdk"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "medics_extension_sdk.__version__"}
+
+[tool.setuptools.package-data]
+medics_extension_sdk = ["py.typed"]

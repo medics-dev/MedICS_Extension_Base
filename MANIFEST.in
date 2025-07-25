@@ -1,0 +1,8 @@
+include README.md
+include LICENSE
+recursive-include medics_extension_sdk *.py
+recursive-include medics_extension_sdk *.pyi
+recursive-include examples *.py
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store

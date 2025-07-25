@@ -1,0 +1,2 @@
+[console_scripts]
+medics-create-extension = medics_extension_sdk.cli:create_extension_command
