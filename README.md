@@ -59,7 +59,10 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton
 class MyExtension(BaseExtension):
     def get_name(self) -> str:
         return "My Medical Extension"
-    
+
+    def get_id(self) -> str:
+        return "example_extension_id"
+
     def get_version(self) -> str:
         return "1.0.0"
     
@@ -116,7 +119,10 @@ import numpy as np
 class ImageProcessingExtension(BaseExtension):
     def get_name(self) -> str:
         return "Advanced Image Processor"
-    
+
+    def get_id(self) -> str:
+        return "example_extension_id"
+   
     def get_version(self) -> str:
         return "2.0.0"
     
@@ -182,6 +188,7 @@ The `BaseExtension` class provides the foundation for all MedICS extensions.
 #### Required Methods
 
 - `get_name()` → `str`: Extension display name
+- `get_id()` → `str`: Extension ID
 - `get_version()` → `str`: Extension version
 - `get_description()` → `str`: Extension description  
 - `get_author()` → `str`: Extension author
@@ -260,6 +267,7 @@ from your_extension import YourExtension
 def test_extension_info():
     ext = YourExtension()
     assert ext.get_name() == "Expected Name"
+    assert ext.get_id() == "example_extension_id"
     assert ext.get_version() == "1.0.0"
 
 def test_widget_creation():
