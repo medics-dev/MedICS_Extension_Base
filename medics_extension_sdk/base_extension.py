@@ -96,7 +96,7 @@ class BaseExtension(ABC):
                 raise AttributeError(f"Cannot modify read-only attribute '{name}'")
         super().__setattr__(name, value)
     
-    def __init__(self, parent: Optional[QtWidgets.QWidget] = None， id: str = "extension_id"):
+    def __init__(self, parent: Optional[QtWidgets.QWidget] = None, id: str = "extension_id"):
         """
         Initialize the base extension.
         
