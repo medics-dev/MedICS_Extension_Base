@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 from typing import Dict, Any
 
-def create_extension_template(name: str, output_dir: str, category: str = "General", author: str = "Unknown") -> None:
+def create_extension_template(name: str, output_dir: str, id = "example_extension_id", category: str = "General", author: str = "Unknown") -> None:
     """Create a new extension template."""
     
     # Sanitize the extension name for file/class names
@@ -94,6 +94,10 @@ class {class_name}(BaseExtension):
     def get_name(self) -> str:
         """Get extension name."""
         return "{name}"
+
+    def get_id(self) -> str:
+        """Get extension id."""
+        return "{id}"
     
     def get_version(self) -> str:
         """Get extension version."""
