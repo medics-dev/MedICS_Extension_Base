@@ -90,8 +90,15 @@ class BaseExtension(ABC):
     3. Override create_widget() for widget-based extensions
     4. Use the app_context to access platform services
     """
-
-    def __init__(self, parent: Optional[QtWidgets.QWidget] = None):
+    __readonly__ = ()
+    
+    def __setattr__(self, name, value):
+        if hasattr(self, "_locked"):  # 初始化完成后才生效
+            if name in self.__readonly__:
+                raise AttributeError(f"Cannot modify read-only attribute '{name}'")
+        super().__setattr__(name, value)
+    
+    def __init__(self, parent: Optional[QtWidgets.QWidget] = None， **kwargs):
         """
         Initialize the base extension.
         
@@ -104,6 +111,10 @@ class BaseExtension(ABC):
         self._extension_path: Optional[Path] = None
         self._main_action: Optional[QtGui.QAction] = None
         self.extension_widget: Optional[QtWidgets.QWidget] = None
+
+        for k, v in kwargs.items():
+            super().__setattr__(k, v)
+        super().__setattr__("_locked", True) 
 
     @abstractmethod
     def get_name(self) -> str:
