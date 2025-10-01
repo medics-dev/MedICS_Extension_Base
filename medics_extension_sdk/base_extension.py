@@ -89,16 +89,14 @@ class BaseExtension(ABC):
     2. Implement the required abstract methods
     3. Override create_widget() for widget-based extensions
     4. Use the app_context to access platform services
-    """
-    __readonly__ = ()
-    
+    """    
     def __setattr__(self, name, value):
-        if hasattr(self, "_locked"):  # 初始化完成后才生效
+        if hasattr(self, "_locked"): 
             if name in self.__readonly__:
                 raise AttributeError(f"Cannot modify read-only attribute '{name}'")
         super().__setattr__(name, value)
     
-    def __init__(self, parent: Optional[QtWidgets.QWidget] = None， **kwargs):
+    def __init__(self, parent: Optional[QtWidgets.QWidget] = None， id: str = "extension_id"):
         """
         Initialize the base extension.
         
@@ -112,8 +110,7 @@ class BaseExtension(ABC):
         self._main_action: Optional[QtGui.QAction] = None
         self.extension_widget: Optional[QtWidgets.QWidget] = None
 
-        for k, v in kwargs.items():
-            super().__setattr__(k, v)
+        super().__setattr__('id', id)
         super().__setattr__("_locked", True) 
 
     @abstractmethod
