@@ -9,7 +9,7 @@ long_description = readme_file.read_text(encoding="utf-8") if readme_file.exists
 
 # Read version from the package
 version_file = Path(__file__).parent / "medics_extension_sdk" / "__init__.py"
-version = "1.0.0"
+version = "2.0.0"
 if version_file.exists():
     with open(version_file, "r", encoding="utf-8") as f:
         for line in f:
