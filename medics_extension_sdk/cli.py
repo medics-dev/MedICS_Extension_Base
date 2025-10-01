@@ -94,10 +94,6 @@ class {class_name}(BaseExtension):
     def get_name(self) -> str:
         """Get extension name."""
         return "{name}"
-
-    def get_id(self) -> str:
-        """Get extension id."""
-        return "{id}"
     
     def get_version(self) -> str:
         """Get extension version."""
