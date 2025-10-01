@@ -92,7 +92,7 @@ class BaseExtension(ABC):
     """    
     def __setattr__(self, name, value):
         if hasattr(self, "_locked"): 
-            if name in self.__readonly__:
+            if name == 'id':
                 raise AttributeError(f"Cannot modify read-only attribute '{name}'")
         super().__setattr__(name, value)
     
