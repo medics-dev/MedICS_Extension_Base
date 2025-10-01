@@ -124,16 +124,6 @@ class BaseExtension(ABC):
         pass
 
     @abstractmethod
-    def get_id(self) -> str:
-        """
-        Get extension id.
-        
-        Returns:
-            str: The display id of the extension
-        """
-        pass
-
-    @abstractmethod
     def get_version(self) -> str:
         """
         Get extension version.
