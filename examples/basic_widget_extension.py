@@ -19,9 +19,6 @@ class BasicWidgetExtension(BaseExtension):
     def get_name(self) -> str:
         return "Basic Widget Example"
     
-  def get_id(self) -> str:
-        return "example_extension_id"
-    
     def get_version(self) -> str:
         return "1.0.0"
     
