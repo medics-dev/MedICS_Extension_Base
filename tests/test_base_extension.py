@@ -21,6 +21,9 @@ class MockExtension(BaseExtension):
     
     def get_name(self) -> str:
         return "Test Extension"
+
+    def get_id(self) -> str:
+        return "example_extension_id"
     
     def get_description(self) -> str:
         return "A test extension"
