@@ -16,17 +16,20 @@ import random
 class BasicWidgetExtension(BaseExtension):
     """A basic widget extension demonstrating core functionality."""
     
-    def get_name(self) -> str:
-        return "Basic Widget Example"
+    def __init__(self, parent=None):
+        """Initialize the basic widget extension.
+        
+        The extension ID is automatically generated as: 'medics_sdk_team.basic_widget_example'
+        """
+        super().__init__(parent=parent,
+                         extension_name="Basic Widget Example",
+                         author_name="MedICS SDK Team")
     
     def get_version(self) -> str:
         return "1.0.0"
     
     def get_description(self) -> str:
         return "A basic example showing widget-based extension development"
-    
-    def get_author(self) -> str:
-        return "MedICS SDK Team"
     
     def get_category(self) -> str:
         return "Examples"

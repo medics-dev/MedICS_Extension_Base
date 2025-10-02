@@ -57,20 +57,17 @@ from medics_extension_sdk import BaseExtension
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton
 
 class MyExtension(BaseExtension):
-    def get_name(self) -> str:
-        return "My Medical Extension"
-
-    def get_id(self) -> str:
-        return "example_extension_id"
-
+    def __init__(self, parent=None):
+        # ID is automatically generated from author_name.extension_name
+        super().__init__(parent=parent, 
+                         extension_name="My Medical Extension",
+                         author_name="Your Name")
+    
     def get_version(self) -> str:
         return "1.0.0"
     
     def get_description(self) -> str:
         return "A sample medical imaging extension"
-    
-    def get_author(self) -> str:
-        return "Your Name"
     
     def get_category(self) -> str:
         return "Analysis"
@@ -117,20 +114,17 @@ from medics_extension_sdk import BaseExtension, apiDict
 import numpy as np
 
 class ImageProcessingExtension(BaseExtension):
-    def get_name(self) -> str:
-        return "Advanced Image Processor"
-
-    def get_id(self) -> str:
-        return "example_extension_id"
+    def __init__(self, parent=None):
+        # ID is automatically generated: "medical_imaging_lab.advanced_image_processor"
+        super().__init__(parent=parent,
+                         extension_name="Advanced Image Processor",
+                         author_name="Medical Imaging Lab")
    
     def get_version(self) -> str:
         return "2.0.0"
     
     def get_description(self) -> str:
         return "Advanced image processing with segmentation capabilities"
-    
-    def get_author(self) -> str:
-        return "Medical Imaging Lab"
     
     def get_category(self) -> str:
         return "Processing"
@@ -185,16 +179,29 @@ class ImageProcessingExtension(BaseExtension):
 
 The `BaseExtension` class provides the foundation for all MedICS extensions.
 
+#### Constructor Parameters
+
+- `extension_name` (str): Extension display name (used in UI)
+- `author_name` (str): Extension author/organization name
+- `parent` (QWidget, optional): Parent widget for Qt extensions
+
+**Note**: The extension `id` is automatically generated from `author_name.extension_name` (lowercased, special chars replaced with underscores). The `id` property is **read-only** and cannot be modified or overridden.
+
 #### Required Methods
 
-- `get_name()` → `str`: Extension display name
-- `get_id()` → `str`: Extension ID
-- `get_version()` → `str`: Extension version
-- `get_description()` → `str`: Extension description  
-- `get_author()` → `str`: Extension author
+- `get_version()` → `str`: Extension version (e.g., "1.0.0")
+- `get_description()` → `str`: Brief description of the extension
 
-#### Optional Methods
+#### Read-Only Properties
 
+- `id` (str): Unique extension identifier (auto-generated, read-only, non-overridable)
+- `extension_name` (str): Extension display name (read-only)
+- `author_name` (str): Extension author (read-only)
+
+#### Methods You Can Override
+
+- `get_name()` → `str`: Returns extension_name (usually no need to override)
+- `get_author()` → `str`: Returns author_name (usually no need to override)
 - `get_category()` → `str`: Extension category (default: "General")
 - `create_widget(parent, **kwargs)` → `QWidget`: Create main UI widget
 - `get_api()` → `apiDict`: Expose programmatic API
@@ -267,8 +274,14 @@ from your_extension import YourExtension
 def test_extension_info():
     ext = YourExtension()
     assert ext.get_name() == "Expected Name"
-    assert ext.get_id() == "example_extension_id"
+    assert ext.id == "expected_author.expected_name"  # Auto-generated, read-only
     assert ext.get_version() == "1.0.0"
+
+def test_id_is_readonly():
+    """Test that id cannot be modified after initialization."""
+    ext = YourExtension()
+    with pytest.raises(AttributeError):
+        ext.id = "modified_id"
 
 def test_widget_creation():
     ext = YourExtension()

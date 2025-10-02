@@ -7,7 +7,8 @@ into proper extensions that can be discovered and managed by the extension syste
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Optional
+import re
+from typing import Any, Optional, final
 
 try:
     from PySide6 import QtWidgets, QtGui
@@ -89,14 +90,15 @@ class BaseExtension(ABC):
     2. Implement the required abstract methods
     3. Override create_widget() for widget-based extensions
     4. Use the app_context to access platform services
-    """    
+    """
+    __readonly__ = ("_id", "extension_name", "author_name")
     def __setattr__(self, name, value):
         if hasattr(self, "_locked"): 
-            if name == 'id':
+            if name in self.__readonly__:
                 raise AttributeError(f"Cannot modify read-only attribute '{name}'")
         super().__setattr__(name, value)
-    
-    def __init__(self, parent: Optional[QtWidgets.QWidget] = None, id: str = "extension_id"):
+
+    def __init__(self, parent: Optional[QtWidgets.QWidget] = None, extension_name: str = "extension_name", author_name: str = "author_name"):
         """
         Initialize the base extension.
         
@@ -110,10 +112,15 @@ class BaseExtension(ABC):
         self._main_action: Optional[QtGui.QAction] = None
         self.extension_widget: Optional[QtWidgets.QWidget] = None
 
-        super().__setattr__('id', id)
-        super().__setattr__("_locked", True) 
+        # Set readonly attributes directly in __dict__ to bypass __setattr__ and property restrictions
+        object.__setattr__(self, "extension_name", extension_name)
+        object.__setattr__(self, "author_name", author_name)
+        # set the id based on author and extension name, underscores and lowercased and numbers are allowed, all other special chars replaced with _
+        id_value = f"{author_name}.{extension_name}".lower().replace(" ", "_")
+        id_value = re.sub(r"[^a-z0-9_.]", "_", id_value)
+        object.__setattr__(self, "_id", id_value)  # Store as _id to avoid property conflict
+        object.__setattr__(self, "_locked", True)
 
-    @abstractmethod
     def get_name(self) -> str:
         """
         Get extension name.
@@ -121,7 +128,26 @@ class BaseExtension(ABC):
         Returns:
             str: The display name of the extension
         """
-        pass
+        return self.__dict__["extension_name"]
+
+    # def a readonly property for id, no setter, only getter, and prevent inherited classes from overriding it
+    @property
+    @final
+    def id(self) -> str:
+        """
+        Get extension ID.
+        
+        This property is read-only and cannot be overridden by subclasses.
+        
+        Returns:
+            str: The unique identifier for the extension
+        """
+        return self._id
+    
+    @id.setter
+    def id(self, value):
+        """Prevent setting the id property."""
+        raise AttributeError("Cannot modify read-only attribute 'id'")
 
     @abstractmethod
     def get_version(self) -> str:
@@ -143,7 +169,6 @@ class BaseExtension(ABC):
         """
         pass
 
-    @abstractmethod
     def get_author(self) -> str:
         """
         Get extension author.
@@ -151,7 +176,7 @@ class BaseExtension(ABC):
         Returns:
             str: The author name or organization
         """
-        pass
+        return self.author_name
 
     def get_category(self) -> str:
         """
