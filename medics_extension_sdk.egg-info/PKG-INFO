@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: medics-extension-sdk
-Version: 2.0.0
+Version: 0.0.1
 Summary: SDK for creating extensions for the MedICS (Medical Image Computing and Segmentation) platform
 Home-page: https://github.com/medics/medics-extension-sdk
 Author: MedICS Team
