@@ -1,8 +1,14 @@
+CHANGELOG.md
 LICENSE
 MANIFEST.in
 README.md
 pyproject.toml
 setup.py
+uv.lock
+dist/medics_extension_sdk-2.0.0-py3-none-any.whl
+dist/medics_extension_sdk-2.0.0.tar.gz
+docs/ID_PROTECTION.md
+docs/MIGRATION_GUIDE.md
 examples/basic_widget_extension.py
 examples/demo_id_protection.py
 medics_extension_sdk/__init__.py

@@ -115,8 +115,8 @@ class BaseExtension(ABC):
         # Set readonly attributes directly in __dict__ to bypass __setattr__ and property restrictions
         object.__setattr__(self, "extension_name", extension_name)
         object.__setattr__(self, "author_name", author_name)
-        # set the id based on author and extension name, underscores and lowercased and numbers are allowed, all other special chars replaced with _
-        id_value = f"{author_name}.{extension_name}".lower().replace(" ", "_")
+        # set the id based on author and extension name, underscores and lowercased and numbers are allowed, all other special chars replaced with _, remove spaces
+        id_value = f"{author_name}.{extension_name}".lower().replace(" ", "")
         id_value = re.sub(r"[^a-z0-9_.]", "_", id_value)
         object.__setattr__(self, "_id", id_value)  # Store as _id to avoid property conflict
         object.__setattr__(self, "_locked", True)
